@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.io Example</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script>
+      const socket = io.connect('http://localhost:3000', {
+        cors: { origin: '*' }
+      });
+
+      // 메시지 전송
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (input.value) {
+          socket.emit('set_ur_emit_key', input.value);
+          input.value = '';
+        }
+      });
+
+      // 메시지 수신
+      const messages = document.getElementById('messages');
+      socket.on('send_to_ur_audience', (this_is_msg_content) => {   //msg는 텍스트 값. 이상한거로 해도됌 맞춰만 주면
+        const li = document.createElement('li');
+        li.innerText = this_is_msg_content;
+        messages.appendChild(li);
+      });
+    </script>
+  </body>
+</html>

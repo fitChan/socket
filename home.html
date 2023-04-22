@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>채팅방 목록</title>
+	<style>
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+		
+		li {
+			margin: 10px 0;
+		}
+		
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<h1>채팅방 목록</h1>
+	<ul>
+		<li>
+			<button onclick="enterChatRoom(1)" id="채팅방1">채팅방 1</button>
+		</li>
+		<li>
+			<button onclick="enterChatRoom(2)" id="채팅방2">채팅방 2</button>
+		</li>
+		<li>
+			<button onclick="enterChatRoom(3)" id="채팅방3">채팅방 3</button>
+		</li>
+	</ul>
+	<script>
+		function enterChatRoom(roomId) {
+			window.location.href = "index.html?room=" + roomId;
+		}
+	</script>
+</body>
+</html>

@@ -16,12 +16,15 @@
             cors: { origin: '*' }
         });
 
+        const params = new URLSearchParams(window.location.search);
+        const room = params.get('room');
+
         let disconnectTimeout;
 
         function setDisconnectTimeout() {
             clearTimeout(disconnectTimeout);
             disconnectTimeout = setTimeout(() => {
-                socket.emit('disconnect_me', 'Your connection has been terminated due to inactivity.');
+                socket.emit('disconnect_me', room);
             }, 10000);
         }
 
@@ -31,7 +34,11 @@
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             if (input.value) {
-                socket.emit('set_ur_emit_key', input.value);
+                let value = {
+                    input: input.value,
+                    room: room
+                }
+                socket.emit('set_ur_emit_key', value);
                 input.value = '';
             }
             setDisconnectTimeout();
@@ -40,9 +47,10 @@
         // 메시지 수신
         const messages = document.getElementById('messages');
         socket.on('send_to_ur_audience', (this_is_msg_content) => {
-            const li = document.createElement('li');
-            li.innerText = this_is_msg_content;
-            messages.appendChild(li);
+                const li = document.createElement('li');
+                li.innerText = this_is_msg_content.input;
+                messages.appendChild(li);
+            
         });
 
         // 일정 시간이 지나면 연결 끊기

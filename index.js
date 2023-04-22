@@ -12,10 +12,13 @@ const io = require('socket.io')(server, {
 // 클라이언트가 접속하면 실행
 io.on('connection', (socket) => {
 
+  socket.on('join', (room) => {
+    socket.join(room); // join socket to the room
+    socket.emit('join', room)
+  });
   // 클라이언트로부터 메시지를 받으면 실행
-   socket.on('set_ur_emit_key', (this_is_msg_content) => {
+  socket.on('set_ur_emit_key', (this_is_msg_content) => {
     console.log('message: ' + this_is_msg_content.input);
-    socket.join(this_is_msg_content.room); // join socket to the room
     io.to(this_is_msg_content.room).emit('send_to_ur_audience', this_is_msg_content);
   });
 
